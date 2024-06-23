@@ -1,0 +1,34 @@
+[gd_scene load_steps=4 format=3 uid="uid://oiv0e1muagae"]
+
+[ext_resource type="Texture2D" uid="uid://chd22k61b5xyv" path="res://assets/rock-small.png" id="1_r2pkp"]
+
+[sub_resource type="GDScript" id="GDScript_lg5xu"]
+script/source = "extends RigidBody2D
+
+const MIN_SPEED = 35.0
+const MAX_SPEED = 75.0
+
+func spawn(spawn_path):
+	spawn_path.progress_ratio = randf()
+	position = spawn_path.position
+	var direction = spawn_path.rotation + PI / 2
+	direction += randf_range(-PI / 4, PI / 4)
+	var velocity = Vector2(randf_range(MIN_SPEED, MAX_SPEED), 0.0)
+	linear_velocity = velocity.rotated(direction)
+"
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_brf41"]
+radius = 6.0
+
+[node name="Pebble" type="RigidBody2D"]
+collision_layer = 4
+collision_mask = 0
+gravity_scale = 0.0
+constant_force = Vector2(1, 1)
+script = SubResource("GDScript_lg5xu")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_brf41")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("1_r2pkp")

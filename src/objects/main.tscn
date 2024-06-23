@@ -1,0 +1,51 @@
+[gd_scene load_steps=5 format=3 uid="uid://ctsp8stcy64jo"]
+
+[ext_resource type="Script" path="res://scripts/main.gd" id="1_mtkay"]
+[ext_resource type="PackedScene" uid="uid://oiv0e1muagae" path="res://objects/pebble.tscn" id="2_ym1c1"]
+[ext_resource type="PackedScene" uid="uid://dhim5wa4lqr70" path="res://objects/ship.tscn" id="3_1iton"]
+
+[sub_resource type="Curve2D" id="Curve2D_o2dab"]
+_data = {
+"points": PackedVector2Array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 256, 0, 0, 0, 0, 0, 256, 256, 0, 0, 0, 0, 0, 256, 0, 0, 0, 0, 0, 0)
+}
+point_count = 5
+
+[node name="Main" type="Node"]
+script = ExtResource("1_mtkay")
+pebble = ExtResource("2_ym1c1")
+
+[node name="Background" type="Sprite2D" parent="."]
+light_mask = 0
+visibility_layer = 2
+z_as_relative = false
+scale = Vector2(8, 8)
+centered = false
+
+[node name="RockPath" type="Path2D" parent="."]
+curve = SubResource("Curve2D_o2dab")
+
+[node name="RockSpawn" type="PathFollow2D" parent="RockPath"]
+
+[node name="Ship" parent="." instance=ExtResource("3_1iton")]
+
+[node name="SpawnTimer" type="Timer" parent="."]
+wait_time = 1.5
+autostart = true
+
+[node name="Label" type="Label" parent="."]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -94.5
+offset_top = -24.5
+offset_right = 94.5
+offset_bottom = 24.5
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 4
+theme_override_font_sizes/font_size = 40
+text = "Game Over"
+
+[connection signal="timeout" from="SpawnTimer" to="." method="_on_timer_timeout"]
